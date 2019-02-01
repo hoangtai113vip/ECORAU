@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+   <div th:object="${sinhvien}">
+    <p>Name: <span th:text="*{maSv}"></span>.</p>
+    <p>Surname: <span th:text="*{ten}"></span>.</p>
+    <p>Nationality: <span th:text="*{ngaySinh}">Saturn</span>.</p>
+  </div>
+</body>
+</html>
