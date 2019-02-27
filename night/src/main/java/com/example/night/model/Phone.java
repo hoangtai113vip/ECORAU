@@ -4,11 +4,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ForeignKey;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,7 +27,7 @@ public  class Phone {
     @Column(name = "`number`")
     private String number;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "person_id", foreignKey = @ForeignKey(name ="PERSON_ID_FK")
   
     )
@@ -51,8 +55,8 @@ public  class Phone {
         return number;
     }
 
-    public long getPerson() {
-        return person.getId();
+    public Person getPerson() {
+        return person;
     }
 
     public void setPerson(Person person) {

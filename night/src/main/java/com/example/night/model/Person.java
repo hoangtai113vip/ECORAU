@@ -1,8 +1,15 @@
 package com.example.night.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import antlr.debug.Event;
 
 @Entity
 public  class Person {
@@ -11,6 +18,8 @@ public  class Person {
     @GeneratedValue
     private Long id;
     private String name;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Phone> Phone = new HashSet<>();
     public Long getId() {
 		return id;
 	}

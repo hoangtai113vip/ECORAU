@@ -3,6 +3,7 @@ package com.example.database.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 
 	        // Tất cả các request gửi tới Web Server yêu cầu phải được xác thực
 	        // (authenticated).
-	        http.authorizeRequests().anyRequest().authenticated();
-	 
+	        http.authorizeRequests()
+	        .antMatchers(HttpMethod.GET,"/product").permitAll()
+	        .antMatchers(HttpMethod.POST,"/product").hasAnyRole("ADMIN","USER")
+	        .anyRequest().authenticated()
+	        ;
+
+	      
 	        // Sử dụng AuthenticationEntryPoint để xác thực user/password
 	        http.httpBasic().authenticationEntryPoint(authEntryPoint);
 	    }
@@ -55,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        // Định nghĩa 2 người dùng, lưu trữ trong bộ nhớ.
 	        // ** Spring BOOT >= 2.x (Spring Security 5.x)
 	        // Spring auto add ROLE_
-	        UserDetails u1 = User.withUsername("tom").password(encrytedPassword).roles("USER").build();
+	        UserDetails u1 = User.withUsername("tom").password(encrytedPassword).roles("ADMIN").build();
 	        UserDetails u2 = User.withUsername("jerry").password(encrytedPassword).roles("USER").build();
 	 
 	        mngConfig.withUser(u1);

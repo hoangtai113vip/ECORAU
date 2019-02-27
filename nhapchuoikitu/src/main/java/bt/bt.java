@@ -9,20 +9,17 @@ import java.util.Stack;
 public class bt {
     public static void main(String args[]) {
      
-    	 String exp = "1+2*3"; 
+    	 String exp = "(100-200)*400-100"; 
          String string =infixToPostfix(exp);
          System.out.println(string);
          System.out.println("postfix evaluation: "+evaluatePostfix(string)); 
          Queue<String> q = bt2.infixToPostfix(exp);
-         System.out.println(q.poll());
-         System.out.println(q.poll());
-         System.out.println(q.poll());
-         System.out.println(q.poll());
-         System.out.println(q.poll());
+         
+         
      
     
-//         System.out.println(bt2.evaluatePostfix(q));
-//         
+     System.out.println("postfix evaluation: "+bt2.evaluatePostfix(q));
+         
    
          
          
@@ -202,12 +199,13 @@ class bt2 {
             // until an '(' is encountered. 
             else if (c == ')') 
             { 
+            	if(result!="")
+                	q.add(result);
+            		result ="";
                 while (!stack.isEmpty() && stack.peek() != '(')
                 	
                 	{
-                	if(result!="")
-                	q.add(result);
-            		result ="";
+                	
                     q.add(String.valueOf(stack.pop())); 
                 	}
                   
@@ -228,7 +226,9 @@ class bt2 {
             } 
        
         } 
-       
+        if(result!="") {
+        	q.add(result);
+        }
         // pop all the operators from the stack 
         while (!stack.isEmpty()) 
             q.add(String.valueOf(stack.pop())); 
@@ -241,9 +241,8 @@ class bt2 {
     { 
         //create a stack 
         Stack<Integer> stack=new Stack(); 
-          
-        // Scan all characters one by one 
-        for(int i=0;i<q.size();i++) 
+        int n =q.size()-1;
+        for(int i=0;i<(q.size()+n);++i) 
         { 
             String c =q.poll(); 
               
@@ -251,9 +250,10 @@ class bt2 {
             // push it to the stack. 
             if(isNumeric(c))
             {
-            int number = Integer.parseInt(c); 
+            int number = Integer.parseInt(c);
             stack.push(number);
             System.out.println(stack.peek());
+         
     
             } 
             //  If the scanned character is an operator, pop two 
@@ -261,15 +261,16 @@ class bt2 {
             else
             { 
             	int val1 = stack.pop();
-            	int val2= stack.pop();
+            	int val2 = stack.pop();
                 
                
+            	
                 switch(c) 
                 { 
-                   case "+": 
-                   stack.push(val2+val1); 
-                   break; 
-                     
+                  case "+": 
+                  stack.push(val2+val1); 
+                  break; 
+                    
                    case "-": 
                    stack.push(val2-val1); 
                    break; 
